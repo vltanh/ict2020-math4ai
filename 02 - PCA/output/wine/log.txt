@@ -1,0 +1,7 @@
+Dataset: wine
+Number of samples: 178
+Number of features: 13
+=======
+[My] Error ||X-Xk||/||X|| (Frobenius): 0.00506
+[Scikit] Error ||X-Xk_sk||/||X|| (Frobenius): 0.00506
+[My vs Scikit] Error ||Xk-Xk_sk|| (Frobenius): 0.00000

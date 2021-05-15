@@ -1,0 +1,7 @@
+Dataset: breast-cancer
+Number of samples: 569
+Number of features: 30
+=======
+[My] Error ||X-Xk||/||X|| (Frobenius): 0.02186
+[Scikit] Error ||X-Xk_sk||/||X|| (Frobenius): 0.02186
+[My vs Scikit] Error ||Xk-Xk_sk|| (Frobenius): 0.00000

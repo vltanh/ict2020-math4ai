@@ -1,0 +1,7 @@
+Dataset: iris
+Number of samples: 150
+Number of features: 4
+=======
+[My] Error ||X-Xk||/||X|| (Frobenius): 0.03992
+[Scikit] Error ||X-Xk_sk||/||X|| (Frobenius): 0.03992
+[My vs Scikit] Error ||Xk-Xk_sk|| (Frobenius): 0.00000
