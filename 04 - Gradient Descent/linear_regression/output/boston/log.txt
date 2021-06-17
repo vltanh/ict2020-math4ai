@@ -1,0 +1,37 @@
+Dataset: boston
+Number of samples: 506
+Number of features: 13
+=======
+Learning rate: 0.1
+Number of iterations: 10000
+=======
+Result:
+	w[  0] = 
+		nan
+	w[  1] = 
+		nan
+	w[  2] = 
+		nan
+	w[  3] = 
+		nan
+	w[  4] = 
+		nan
+	w[  5] = 
+		nan
+	w[  6] = 
+		nan
+	w[  7] = 
+		nan
+	w[  8] = 
+		nan
+	w[  9] = 
+		nan
+	w[ 10] = 
+		nan
+	w[ 11] = 
+		nan
+	w[ 12] = 
+		nan
+	w[ 13] = 
+		nan
+Final loss: nan

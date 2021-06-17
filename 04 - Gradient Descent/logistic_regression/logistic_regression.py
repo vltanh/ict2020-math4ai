@@ -39,8 +39,8 @@ def logistic_regression(X, y, W_init, lr, max_nsteps):
 
         # Loss:
         #   L = 1/N sum_{i=1}^{N} - y_i * ln(h_i) - (1 - y_i) * ln(1 - h_i)
-        loss = - (y * np.log(h) + (1 - y) * np.log(1 - h)).mean()
-        history.append(loss)
+        h_ = np.clip(h, a_min=1e-6, a_max=1-1e-6)
+        loss = - (y * np.log(h_) + (1 - y) * np.log(1 - h_)).mean()
 
         # Gradient:
         #   dL/dW_j = 1/N sum_{i=1}^{N} - dh_i/dW_j * (y_i / h_i + (1 - y_i)/(1 - h_i))
@@ -59,43 +59,9 @@ def logistic_regression(X, y, W_init, lr, max_nsteps):
         W = W - lr * dW
 
         # Stop condition
+        history.append((W, loss))
         step += 1
         if step > max_nsteps:
             break
 
     return W, history
-
-
-def test():
-    # Data
-    X = np.array([
-        [1., 2.],
-        [3., 4.],
-        [-1., -5.]
-    ])
-    y = np.array([1, 0, 1])
-
-    # Initial weights
-    W_init = np.random.randn(3)
-
-    # Hyperparameters
-    lr = 0.01
-    max_nsteps = 100000
-
-    # Solve Linear Regression by Gradient Descent
-    W, h = logistic_regression(X, y, W_init, lr, max_nsteps)
-
-    # Visualize Result
-    print('Result:', W)
-    print('Final loss:', h[-1])
-
-    sns.lineplot(x=range(len(h)), y=h)
-    plt.savefig('logreg')
-    plt.close()
-
-
-if __name__ == '__main__':
-    try:
-        test()
-    except Exception as e:
-        print(e)

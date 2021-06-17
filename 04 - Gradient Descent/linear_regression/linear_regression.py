@@ -32,7 +32,6 @@ def linear_regression(X, y, W_init, lr, max_nsteps):
         # === Vectorize ===
         #   L = 1/2N (h - y).T (h - y)
         loss = ((h - y) ** 2).mean() / 2
-        history.append(loss)
 
         # Gradient:
         #   dL/dW_j = 1/N sum_{i=1}^{N} dh_i/dW_j * (h_i - y_i)
@@ -48,43 +47,9 @@ def linear_regression(X, y, W_init, lr, max_nsteps):
         W = W - lr * dW
 
         # Stop condition
+        history.append((W, loss))
         step += 1
         if step > max_nsteps:
             break
 
     return W, history
-
-
-def test():
-    # Data
-    X = np.array([
-        [1., 2.],
-        [3., 4.],
-        [-1., -5.]
-    ])
-    y = np.array([3., 6., 2.])
-
-    # Initial weights
-    W_init = np.random.randn(3)
-
-    # Hyperparameters
-    lr = 0.01
-    max_nsteps = 100000
-
-    # Solve Linear Regression by Gradient Descent
-    W, h = linear_regression(X, y, W_init, lr, max_nsteps)
-
-    # Visualize Result
-    print('Result:', W)
-    print('Final loss:', h[-1])
-
-    sns.lineplot(x=range(len(h)), y=h)
-    plt.savefig('linreg')
-    plt.close()
-
-
-if __name__ == '__main__':
-    try:
-        test()
-    except Exception as e:
-        print(e)

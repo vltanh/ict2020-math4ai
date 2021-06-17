@@ -1,7 +1,7 @@
 import os
 import argparse
 
-from linear_regression import linear_regression
+from logistic_regression import logistic_regression
 
 from sklearn import datasets
 import numpy as np
@@ -15,8 +15,8 @@ sns.set()
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', '-d',
-                        help='Dataset (boston|diabetes)',
-                        default='boston')
+                        help='Dataset (breast_cancer)',
+                        default='breast_cancer')
     parser.add_argument('--output', '-o',
                         help='Output directory (will be created if not existed)',
                         default='output')
@@ -32,17 +32,19 @@ def parse_args():
 
 
 def load_data(dataset_str):
-    if dataset_str == 'boston':
-        X, y = datasets.load_boston(return_X_y=True)
-    elif dataset_str == 'diabetes':
-        X, y = datasets.load_diabetes(return_X_y=True)
+    if dataset_str == 'breast_cancer':
+        X, y = datasets.load_breast_cancer(return_X_y=True)
     else:
-        raise 'Wrong dataset argument, only (boston|diabetes) are accepted!'
+        raise 'Wrong dataset argument, only (breast_cancer) are accepted!'
     return X, y
 
 
 # Parse arguments
 args = parse_args()
+
+# Load dataset
+X, y = load_data(args.dataset)
+N, D = X.shape
 
 # Save results
 output_dir = f'{args.output}/{args.dataset}'
@@ -50,24 +52,22 @@ os.makedirs(output_dir, exist_ok=True)
 
 f = open(f'{output_dir}/log.txt', 'w')
 
-# Load dataset
-X, y = load_data(args.dataset)
-
 # Dataset description
 f.write(f'Dataset: {args.dataset}\n')
-f.write(f'Number of samples: {X.shape[0]}\n')
-f.write(f'Number of features: {X.shape[1]}\n')
+f.write(f'Number of samples: {N}\n')
+f.write(f'Number of features: {D}\n')
 f.write('=======\n')
 
 # Initial weights
-W_init = np.random.randn(X.shape[1] + 1)
+W_init = np.random.randn(D+1)
 
 # Hyperparameters
 lr = args.learning_rate
 max_nsteps = args.max_nsteps
 
-# Solve Linear Regression by Gradient Descent
-W, h = linear_regression(X, y, W_init, lr, max_nsteps)
+# Solve Logistic Regression by Gradient Descent
+W, h = logistic_regression(X, y, W_init, lr, max_nsteps)
+Wh, Lh = list(zip(*h))
 
 # Log hyperparameters
 f.write(f'Learning rate: {lr}\n')
@@ -78,8 +78,8 @@ f.write('=======\n')
 f.write('Result:\n')
 for i, w in enumerate(W):
     f.write(f'\tw[{i:3d}] = {w}\n')
-f.write(f'Final loss: {h[-1]}')
+f.write(f'Final loss: {Lh[-1]}')
 
-sns.lineplot(x=range(len(h)), y=h)
+sns.lineplot(x=range(len(Lh)), y=Lh)
 plt.savefig(output_dir + '/' + args.dataset)
 plt.close()
